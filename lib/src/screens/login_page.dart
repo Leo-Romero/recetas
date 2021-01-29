@@ -8,6 +8,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.symmetric(vertical: 60),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
+                Colors.cyan,
                 Colors.cyan[300],
-                Colors.cyan[800],
               ]),
             ),
             child: Image.asset(
@@ -40,6 +42,36 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       decoration: InputDecoration(labelText: "Usuario:"),
                     ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: "Contraseña:"),
+                      obscureText: true,
+                    ),
+                    Theme(
+                      data:
+                          Theme.of(context).copyWith(accentColor: Colors.white),
+                      child: RaisedButton(
+                        onPressed: () => _login(context),
+                        color: Theme.of(context).primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        textColor: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Iniciar sesión"),
+                            if (_loading)
+                              Container(
+                                height: 20,
+                                width: 20,
+                                margin: const EdgeInsets.only(left: 20),
+                                child: CircularProgressIndicator(),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -48,5 +80,13 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  void _login(BuildContext context) {
+    if (!_loading) {
+      setState(() {
+        _loading = true;
+      });
+    }
   }
 }
