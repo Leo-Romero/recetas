@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/user.dart';
 import 'package:recetas/src/connection/server_controller.dart';
+import 'package:recetas/src/screens/register_page.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
 
@@ -23,8 +24,11 @@ class MyApp extends StatelessWidget {
             case "/":
               return LoginPage(_serverController, context);
             case "/home":
-              User userLogged = settings.arguments;
-              return HomePage(userLogged);
+              User loggedUser = settings.arguments;
+              _serverController.loggedUser = loggedUser;
+              return HomePage(_serverController);
+            case "/register":
+              return RegisterPage(_serverController, context);
           }
         });
       },
