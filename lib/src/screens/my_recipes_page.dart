@@ -17,10 +17,10 @@ class _MyRecipesPageState extends State<MyRecipesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mis favoritos"),
+        title: Text("Mis recetas"),
       ),
       body: FutureBuilder<List<Recipe>>(
-        //      future: widget.serverController.getUserRecipesList(),
+        future: widget.serverController.getUserRecipesList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             List<Recipe> list = snapshot.data;

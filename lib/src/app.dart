@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modulo1_fake_backend/models.dart';
 import 'package:flutter_modulo1_fake_backend/user.dart';
 import 'package:recetas/src/connection/server_controller.dart';
+import 'package:recetas/src/screens/details_page.dart';
 import 'package:recetas/src/screens/my_favotites_page.dart';
+import 'package:recetas/src/screens/my_recipes_page.dart';
 import 'package:recetas/src/screens/register_page.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
@@ -46,6 +49,16 @@ class MyApp extends StatelessWidget {
             case "/favorites":
               return MyFavoritesPage(
                 _serverController,
+              );
+            case "/my_recipes":
+              return MyRecipesPage(
+                _serverController,
+              );
+            case "/details":
+              Recipe recipe = settings.arguments;
+              return DetailsPage(
+                recipe: recipe,
+                serverController: _serverController,
               );
           }
         });

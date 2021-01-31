@@ -43,7 +43,7 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              //  Navigator.of(context).pushNamed("/my_recipes");
+              Navigator.of(context).pushNamed("/my_recipes");
             },
           ),
           ListTile(
