@@ -28,11 +28,11 @@ class MyDrawer extends StatelessWidget {
             ),
             onDetailsPressed: () {
               Navigator.pop(context);
-              //Navigator.of(context).pushNamed("/register",
-              //    arguments: serverController.loggedUser);
+              Navigator.of(context).pushNamed("/register",
+                  arguments: serverController.loggedUser);
             },
           ),
-          /*      ListTile(
+          ListTile(
             title: Text(
               "Mis recetas",
               style: TextStyle(fontSize: 18),
@@ -43,7 +43,7 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).pushNamed("/my_recipes");
+              //  Navigator.of(context).pushNamed("/my_recipes");
             },
           ),
           ListTile(
@@ -71,9 +71,11 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
+              // para eliminar toda la navegacion que se ha hecho
+              // se elimina todo el historial de navegacion
               Navigator.pushReplacementNamed(context, "/");
             },
-          ),*/
+          ),
         ],
       ),
     );

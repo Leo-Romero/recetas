@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/user.dart';
 import 'package:recetas/src/connection/server_controller.dart';
+import 'package:recetas/src/screens/my_favotites_page.dart';
 import 'package:recetas/src/screens/register_page.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
@@ -36,7 +37,16 @@ class MyApp extends StatelessWidget {
               _serverController.loggedUser = loggedUser;
               return HomePage(_serverController);
             case "/register":
-              return RegisterPage(_serverController, context);
+              User loggedUser = settings.arguments;
+              return RegisterPage(
+                _serverController,
+                context,
+                userToEdit: loggedUser,
+              );
+            case "/favorites":
+              return MyFavoritesPage(
+                _serverController,
+              );
           }
         });
       },

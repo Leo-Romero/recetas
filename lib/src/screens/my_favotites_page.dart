@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
+import 'package:recetas/src/components/recipe_widget.dart';
 import 'package:recetas/src/connection/server_controller.dart';
 
 class MyFavoritesPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
         title: Text("Mis favoritos"),
       ),
       body: FutureBuilder<List<Recipe>>(
-        //      future: widget.serverController.getFavoritesList(),
+        future: widget.serverController.getFavoritesList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             List<Recipe> list = snapshot.data;
@@ -49,48 +50,15 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
             }
             return ListView.builder(
               itemCount: list.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 Recipe recipe = list[index];
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Card(
-                      child: Container(
-                        height: 250,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(recipe.photo),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          color: Colors.black.withOpacity(0.35),
-                          child: ListTile(
-                            title: Text(
-                              recipe.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                            subtitle: Text(
-                              recipe.user.nickname,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.favorite),
-                              onPressed: () {},
-                              iconSize: 32,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+
+                return RecipeWidget(
+                  recipe: recipe,
+                  serverController: widget.serverController,
+                  onChange: () {
+                    setState(() {});
+                  },
                 );
               },
             );

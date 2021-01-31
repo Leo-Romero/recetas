@@ -21,4 +21,25 @@ class ServerController {
   Future<List<Recipe>> getRecipesList() async {
     return await server.getRecipes();
   }
+
+  Future<bool> getIsFavorite(Recipe recipeToCheck) async {
+    return await server.isFavorite(recipeToCheck);
+  }
+
+  Future<Recipe> addFavorite(Recipe nFavorite) async {
+    return await server.addFavorite(nFavorite);
+  }
+
+  Future<bool> deleteFavorite(Recipe favoriteRecipe) async {
+    return await server.deleteFavorite(favoriteRecipe);
+  }
+
+  Future<bool> updateUser(User user) async {
+    loggedUser = user;
+    return await server.updateUser(user);
+  }
+
+  Future<List<Recipe>> getFavoritesList() async {
+    return await server.getFavorites();
+  }
 }

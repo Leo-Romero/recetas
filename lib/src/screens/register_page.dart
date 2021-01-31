@@ -7,8 +7,9 @@ import 'package:recetas/src/connection/server_controller.dart';
 class RegisterPage extends StatefulWidget {
   ServerController serverController;
   BuildContext context;
+  User userToEdit;
 
-  RegisterPage(this.serverController, this.context, {Key key})
+  RegisterPage(this.serverController, this.context, {Key key, this.userToEdit})
       : super(key: key);
 
   @override
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _errorMessage = "";
   File imageFile;
   bool showPassword = false;
+  bool editinguser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       //mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextFormField(
+                          initialValue: userName,
                           decoration: InputDecoration(labelText: "Usuario:"),
                           onSaved: (value) {
                             userName = value;
@@ -85,6 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 20,
                         ),
                         TextFormField(
+                          initialValue: password,
                           decoration: InputDecoration(
                             labelText: "Contraseña:",
                             suffixIcon: IconButton(
@@ -169,14 +173,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           data: Theme.of(context)
                               .copyWith(accentColor: Colors.white),
                           child: RaisedButton(
-                            onPressed: () => _register(context),
+                            onPressed: () => _doProcess(context),
                             color: Theme.of(context).primaryColor,
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             textColor: Colors.white,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text("Registrar"),
+                                Text(
+                                    (editinguser) ? "Actualizar" : "Registrar"),
                                 if (_loading)
                                   Container(
                                     height: 20,
@@ -215,7 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  _register(BuildContext context) async {
+  _doProcess(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       if (imageFile == null) {
@@ -227,16 +232,25 @@ class _RegisterPageState extends State<RegisterPage> {
           nickname: this.userName,
           password: this.password,
           photo: this.imageFile);
-      final state = await widget.serverController.addUser(user);
+      var state;
+      if (editinguser) {
+        user.id = widget.serverController.loggedUser.id;
+        state = await widget.serverController.updateUser(user);
+      } else {
+        state = await widget.serverController.addUser(user);
+      }
+      final action = editinguser ? "actualizar" : "guardar";
+      final action2 = editinguser ? "actualizado" : "guardado";
+
       if (state == false) {
-        showSnackbar(context, "No se pudo guardar", Colors.orange);
+        showSnackbar(context, "No se pudo $action", Colors.orange);
       } else {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text("Información"),
-              content: Text("Su usuario ha sido registrado exitosamente"),
+              content: Text("Su usuario ha sido $action2 exitosamente"),
               actions: <Widget>[
                 FlatButton(
                   child: Text("Ok"),
@@ -264,4 +278,19 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    editinguser = (widget.userToEdit != false);
+
+    if (editinguser) {
+      userName = widget.userToEdit.nickname;
+      password = widget.userToEdit.password;
+      imageFile = widget.userToEdit.photo;
+      genrer = widget.userToEdit.genrer;
+    }
+  }
+
+  void _update(BuildContext context) {}
 }
