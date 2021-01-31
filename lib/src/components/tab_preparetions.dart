@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
 
-class TabIngredientsWidget extends StatelessWidget {
+class TapPreparationWidget extends StatelessWidget {
   final Recipe recipe;
-  const TabIngredientsWidget({this.recipe, Key key}) : super(key: key);
+  const TapPreparationWidget({this.recipe, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class TabIngredientsWidget extends StatelessWidget {
           height: 20,
         ),
         Text(
-          "Ingredientes",
+          "Preparación:",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(
@@ -33,20 +33,20 @@ class TabIngredientsWidget extends StatelessWidget {
         ),
         Column(
           children: List.generate(
-            recipe.ingredients.length,
+            recipe.steps.length,
             (int index) {
-              final ingredient = recipe.ingredients[index];
+              final step = recipe.steps[index];
 
               return ListTile(
-                leading: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                leading: Text(
+                  "${index + 1}",
+                  style: TextStyle(
+                    fontSize: 25,
                     color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                title: Text(ingredient),
+                title: Text(step),
               );
             },
           ),

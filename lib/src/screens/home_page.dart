@@ -9,7 +9,6 @@ class HomePage extends StatefulWidget {
 
   HomePage(this.serverController, {Key key}) : super(key: key);
 
-  @override
   _HomePageState createState() => _HomePageState();
 }
 
@@ -25,13 +24,14 @@ class _HomePageState extends State<HomePage> {
       ),
       body: FutureBuilder<List<Recipe>>(
         future: widget.serverController.getRecipesList(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             final list = snapshot.data;
             return ListView.builder(
               itemCount: list.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 Recipe recipe = list[index];
+
                 return RecipeWidget(
                   recipe: recipe,
                   serverController: widget.serverController,
@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed("/add_recipe");
+        },
       ),
     );
   }

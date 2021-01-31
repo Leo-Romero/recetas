@@ -8,7 +8,6 @@ class LoginPage extends StatefulWidget {
 
   LoginPage(this.serverController, this.context, {Key key}) : super(key: key);
 
-  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -23,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -32,15 +32,17 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 60),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.cyan,
-                  Colors.cyan[300],
-                ]),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.cyan[300],
+                    Colors.cyan[800],
+                  ],
+                ),
               ),
               child: Image.asset(
                 "assets/images/logo.png",
                 color: Colors.white,
-                height: 200,
+                height: mediaQuery.size.height * 0.20,
               ),
             ),
             Transform.translate(
@@ -70,12 +72,11 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                           ),
-                          SizedBox(
-                            height: 40,
-                          ),
+                          SizedBox(height: 40),
                           TextFormField(
-                            decoration:
-                                InputDecoration(labelText: "Contraseña:"),
+                            decoration: InputDecoration(
+                              labelText: "Contraseña:",
+                            ),
                             obscureText: true,
                             onSaved: (value) {
                               password = value;
@@ -86,17 +87,15 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                           ),
-                          SizedBox(
-                            height: 40,
-                          ),
+                          SizedBox(height: 40),
                           Theme(
                             data: Theme.of(context)
                                 .copyWith(accentColor: Colors.white),
                             child: RaisedButton(
-                              onPressed: () => _login(context),
                               color: Theme.of(context).primaryColor,
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               textColor: Colors.white,
+                              onPressed: () => _login(context),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -107,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                       width: 20,
                                       margin: const EdgeInsets.only(left: 20),
                                       child: CircularProgressIndicator(),
-                                    ),
+                                    )
                                 ],
                               ),
                             ),
@@ -130,21 +129,27 @@ class _LoginPageState extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("No estas registrado?"),
+                              Expanded(
+                                child: Text(
+                                  '¿No estas registrado?',
+                                ),
+                              ),
                               FlatButton(
                                 textColor: Theme.of(context).primaryColor,
                                 child: Text("Registrarse"),
-                                onPressed: () => _showRegister(context),
-                              ),
+                                onPressed: () {
+                                  _showRegister(context);
+                                },
+                              )
                             ],
-                          ),
+                          )
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -155,19 +160,16 @@ class _LoginPageState extends State<LoginPage> {
     if (!_loading) {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
-
         setState(() {
           _loading = true;
           _errorMessage = "";
         });
         User user = await widget.serverController.login(userName, password);
         if (user != null) {
-          // con pushReplacementNamed la pantalla de login si hacemos
-          // para atras ya no aparece
           Navigator.of(context).pushReplacementNamed("/home", arguments: user);
         } else {
           setState(() {
-            _errorMessage = "Usuario o contraseña incorrecto";
+            _errorMessage = "Usuario o contrasaeña incorrecto";
             _loading = false;
           });
         }
@@ -175,14 +177,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _showRegister(BuildContext context) {
+  void _showRegister(BuildContext context) async {
     Navigator.of(context).pushNamed(
-      "/register",
+      '/register',
     );
   }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     widget.serverController.init(widget.context);
   }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
 import 'package:flutter_modulo1_fake_backend/user.dart';
 import 'package:recetas/src/connection/server_controller.dart';
+import 'package:recetas/src/screens/add_recipe_page.dart';
 import 'package:recetas/src/screens/details_page.dart';
 import 'package:recetas/src/screens/my_favotites_page.dart';
-import 'package:recetas/src/screens/my_recipes_page.dart';
+import 'package:recetas/src/screens/mys_recipes_page.dart';
 import 'package:recetas/src/screens/register_page.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      initialRoute: '/',
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.cyan,
@@ -24,12 +26,10 @@ class MyApp extends StatelessWidget {
           color: Colors.white,
         ),
         appBarTheme: AppBarTheme(
-          textTheme:
-              TextTheme(title: TextStyle(color: Colors.white, fontSize: 22)),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
+            textTheme:
+                TextTheme(title: TextStyle(color: Colors.white, fontSize: 22)),
+            iconTheme: IconThemeData(color: Colors.white)),
       ),
-      initialRoute: "/",
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (BuildContext context) {
           switch (settings.name) {
@@ -53,6 +53,16 @@ class MyApp extends StatelessWidget {
             case "/my_recipes":
               return MyRecipesPage(
                 _serverController,
+              );
+            case "/add_recipe":
+              return AddRecipePage(
+                _serverController,
+              );
+            case "/edit_recipe":
+              Recipe recipe = settings.arguments;
+              return AddRecipePage(
+                _serverController,
+                recipe: recipe,
               );
             case "/details":
               Recipe recipe = settings.arguments;

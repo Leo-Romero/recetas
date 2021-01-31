@@ -4,11 +4,10 @@ import 'package:image_picker/image_picker.dart';
 
 typedef OnImageSelected = Function(File imageFile);
 
-class ImagePikerWidget extends StatelessWidget {
+class ImagePickerWidget extends StatelessWidget {
   final File imageFile;
   final OnImageSelected onImageSelected;
-
-  ImagePikerWidget({@required this.imageFile, @required this.onImageSelected});
+  ImagePickerWidget({@required this.imageFile, @required this.onImageSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +15,17 @@ class ImagePikerWidget extends StatelessWidget {
       width: double.infinity,
       height: 320,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.cyan[300],
-            Colors.cyan[800],
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-        image: imageFile != null
-            ? DecorationImage(image: FileImage(imageFile), fit: BoxFit.cover)
-            : null,
-      ),
+          gradient: LinearGradient(
+            colors: [
+              Colors.cyan[300],
+              Colors.cyan[800],
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          image: imageFile != null
+              ? DecorationImage(image: FileImage(imageFile), fit: BoxFit.cover)
+              : null),
       child: IconButton(
         icon: Icon(Icons.camera_alt),
         onPressed: () {
@@ -41,29 +39,30 @@ class ImagePikerWidget extends StatelessWidget {
 
   void _showPickerOptions(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.camera_alt),
-                title: Text("Cámara"),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showPickImage(context, ImageSource.camera);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.image),
-                title: Text("Galería"),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showPickImage(context, ImageSource.gallery);
-                },
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text("Camara"),
+              onTap: () {
+                Navigator.pop(context);
+                _showPickImage(context, ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.image),
+              title: Text("Galería"),
+              onTap: () {
+                Navigator.pop(context);
+                _showPickImage(context, ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showPickImage(BuildContext context, source) async {

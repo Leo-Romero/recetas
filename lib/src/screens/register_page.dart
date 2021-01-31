@@ -12,7 +12,6 @@ class RegisterPage extends StatefulWidget {
   RegisterPage(this.serverController, this.context, {Key key, this.userToEdit})
       : super(key: key);
 
-  @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
@@ -29,16 +28,15 @@ class _RegisterPageState extends State<RegisterPage> {
   File imageFile;
   bool showPassword = false;
   bool editinguser = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffKey,
       body: Form(
-        //key: _formKey,
-        key: _scaffKey,
+        key: _formKey,
         child: Stack(
           children: <Widget>[
-            ImagePikerWidget(
+            ImagePickerWidget(
               imageFile: this.imageFile,
               onImageSelected: (File file) {
                 setState(() {
@@ -46,9 +44,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 });
               },
             ),
-            // se coloca aqui al AppBar para que no desplace al Container
-            // el SideBox es que como esta en un stack se lleva el logo
-            // para evitar esto se utiliza el SideBox
             SizedBox(
               child: AppBar(
                 elevation: 0,
@@ -84,24 +79,21 @@ class _RegisterPageState extends State<RegisterPage> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         TextFormField(
                           initialValue: password,
                           decoration: InputDecoration(
-                            labelText: "Contraseña:",
-                            suffixIcon: IconButton(
-                              icon: Icon(showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  showPassword = !showPassword;
-                                });
-                              },
-                            ),
-                          ),
+                              labelText: "Contraseña:",
+                              suffixIcon: IconButton(
+                                icon: Icon(showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                },
+                              )),
                           obscureText: !showPassword,
                           onSaved: (value) {
                             password = value;
@@ -112,9 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Row(
                           children: [
                             Expanded(
@@ -166,17 +156,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Theme(
                           data: Theme.of(context)
                               .copyWith(accentColor: Colors.white),
                           child: RaisedButton(
-                            onPressed: () => _doProcess(context),
                             color: Theme.of(context).primaryColor,
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             textColor: Colors.white,
+                            onPressed: () => _doProcess(context),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -188,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     width: 20,
                                     margin: const EdgeInsets.only(left: 20),
                                     child: CircularProgressIndicator(),
-                                  ),
+                                  )
                               ],
                             ),
                           ),
@@ -213,7 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -258,7 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
-                ),
+                )
               ],
             );
           },
@@ -281,8 +269,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    editinguser = (widget.userToEdit != false);
+    editinguser = (widget.userToEdit != null);
 
     if (editinguser) {
       userName = widget.userToEdit.nickname;
@@ -291,6 +280,4 @@ class _RegisterPageState extends State<RegisterPage> {
       genrer = widget.userToEdit.genrer;
     }
   }
-
-  void _update(BuildContext context) {}
 }

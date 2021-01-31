@@ -8,7 +8,6 @@ class MyFavoritesPage extends StatefulWidget {
 
   MyFavoritesPage(this.serverController, {Key key}) : super(key: key);
 
-  @override
   _MyFavoritesPageState createState() => _MyFavoritesPageState();
 }
 
@@ -40,7 +39,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
                         color: Colors.grey[300],
                       ),
                       Text(
-                        "Su listado de favoritos está vacío, para poder agregar a favoritos simplemente seleccione el ícono de favorito (corazón) en la receta que desee agregar.",
+                        "Su listado de favoritos está vacío, para poder agregar a favoritos simplemente seleccione el ícono de favorito(corazón) en la receta que desee agregar",
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -48,6 +47,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
                 ),
               );
             }
+
             return ListView.builder(
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {

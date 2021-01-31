@@ -46,4 +46,12 @@ class ServerController {
   Future<List<Recipe>> getUserRecipesList() async {
     return await server.getUserRecipes(loggedUser);
   }
+
+  Future<Recipe> addRecipe(Recipe nRecipe) async {
+    return await server.addRecipe(nRecipe);
+  }
+
+  Future<bool> updateRecipe(Recipe recipe) async {
+    return await server.updateRecipe(recipe);
+  }
 }

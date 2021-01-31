@@ -35,8 +35,8 @@ class RecipeWidget extends StatelessWidget {
                   title: Text(
                     recipe.name,
                     style: TextStyle(
-                      color: Colors.white,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                       fontSize: 16,
                     ),
                   ),
