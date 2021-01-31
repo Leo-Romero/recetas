@@ -1,32 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_modulo1_fake_backend/models.dart';
-import 'package:recetas/src/components/my_drawer.dart';
 import 'package:recetas/src/connection/server_controller.dart';
 
-class HomePage extends StatefulWidget {
+class MyRecipesPage extends StatefulWidget {
   final ServerController serverController;
 
-  HomePage(this.serverController, {Key key}) : super(key: key);
+  MyRecipesPage(this.serverController, {Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MyRecipesPageState createState() => _MyRecipesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyRecipesPageState extends State<MyRecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Cookbook"),
-      ),
-      drawer: MyDrawer(
-        serverController: widget.serverController,
+        title: Text("Mis favoritos"),
       ),
       body: FutureBuilder<List<Recipe>>(
-        future: widget.serverController.getRecipesList(),
-        builder: (context, snapshot) {
+        //      future: widget.serverController.getUserRecipesList(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            final list = snapshot.data;
+            List<Recipe> list = snapshot.data;
+
+            if (list.length == 0) {
+              return SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.info,
+                        size: 120,
+                        color: Colors.grey[300],
+                      ),
+                      Text(
+                        "No se encontró ninguna receta en su biblioteca",
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
@@ -80,10 +101,6 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {},
       ),
     );
   }

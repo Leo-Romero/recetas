@@ -16,6 +16,14 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.cyan,
         accentColor: Colors.cyan[300],
+        accentIconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        appBarTheme: AppBarTheme(
+          textTheme:
+              TextTheme(title: TextStyle(color: Colors.white, fontSize: 22)),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
       ),
       initialRoute: "/",
       onGenerateRoute: (RouteSettings settings) {

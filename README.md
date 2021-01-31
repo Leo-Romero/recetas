@@ -1,4 +1,5 @@
 # recetas
+(C)G Coding Academy
 
 A new Flutter project.
 
